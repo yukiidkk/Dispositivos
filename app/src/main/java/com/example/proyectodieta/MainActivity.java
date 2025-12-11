@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             int idDietaGuardada = db.obtenerDietaGuardada();
             if (idDietaGuardada != -1) {
                 lanzarPlatillosActivity(idDietaGuardada);
-                finish(); // Cierra MainActivity para que no se pueda volver atrás
+                finish();
                 return;
             }
         }

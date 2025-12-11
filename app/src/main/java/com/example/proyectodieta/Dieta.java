@@ -4,7 +4,7 @@ public class Dieta {
 
     private int idDieta;
     private String nombre;
-    private int imagen; // recurso drawable
+    private int imagen;
 
     public Dieta(int idDieta, String nombre, int imagen) {
         this.idDieta = idDieta;

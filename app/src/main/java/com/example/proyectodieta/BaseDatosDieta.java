@@ -17,7 +17,7 @@ import java.util.Locale;
 public class BaseDatosDieta extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "dietas.db";
-    // Se incrementa la versión de la BD para añadir nuevos platillos
+
     private static final int DB_VERSION = 3;
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
@@ -269,7 +269,7 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
     private void insertarPlatillosEIngredientesIniciales(SQLiteDatabase db) {
         final int DIETA_KETO = 1, DIETA_VEGETARIANA = 2, DIETA_VEGANA = 3, DIETA_GLUTEN_FREE = 4, DIETA_CARNIVORA = 5;
 
-        // --- Ingredientes Base ---
+        // Ingredientes
         long ingPechugaPollo = _insertarIngrediente(db, "Pechuga de Pollo");
         long ingSalmon = _insertarIngrediente(db, "Salmón");
         long ingHuevo = _insertarIngrediente(db, "Huevo");
@@ -309,8 +309,6 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
         long ingSal = _insertarIngrediente(db, "Sal");
         long ingPimienta = _insertarIngrediente(db, "Pimienta");
         long ingAjoPolvo = _insertarIngrediente(db, "Ajo en Polvo");
-
-        // --- Nuevos Ingredientes ---
         long ingColiflor = _insertarIngrediente(db, "Coliflor");
         long ingYogurGriego = _insertarIngrediente(db, "Yogur Griego");
         long ingSemillasChia = _insertarIngrediente(db, "Semillas de Chía");
@@ -330,7 +328,7 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
 
 
 
-        // --- Asociaciones Dieta-Ingrediente ---
+        // Asociaciones Dieta-Ingrediente
         long[] ketoIng = {ingPechugaPollo, ingSalmon, ingHuevo, ingCarneRes, ingTocino, ingChuletaCerdo, ingAtun, ingLechuga, ingTomate, ingCebolla, ingAguacate, ingEspinacas, ingBrocoli, ingChampinones, ingPimiento, ingPepino, ingAceiteOliva, ingQuesoCheddar, ingQuesoCabra, ingAlmendras, ingNueces, ingMantequilla, ingCremaAgria, ingFresa, ingArandano, ingLimon, ingSal, ingPimienta, ingAjoPolvo, ingColiflor, ingYogurGriego, ingSemillasChia, ingAceiteCoco, ingHarinaAlmendras, ingLecheAlmendras, ingCamarones, ingMayonesa, ingMostaza};
         long[] vegIng = {ingHuevo, ingLentejas, ingGarbanzos, ingTofu, ingLechuga, ingTomate, ingCebolla, ingAguacate, ingEspinacas, ingBrocoli, ingChampinones, ingPimiento, ingPepino, ingZanahoria, ingAceiteOliva, ingQuesoCheddar, ingQuesoCabra, ingAlmendras, ingNueces, ingMantequilla, ingCremaAgria, ingArroz, ingPanIntegral, ingAvena, ingQuinoa, ingPanSinGluten, ingTortillasMaiz, ingFresa, ingArandano, ingLimon, ingSal, ingPimienta, ingAjoPolvo, ingColiflor, ingYogurGriego, ingSemillasChia, ingAceiteCoco, ingHarinaAlmendras, ingLecheAlmendras, ingProteinaPolvo, ingPastaSinGluten, ingMayonesa, ingMostaza};
         long[] veganIng = {ingLentejas, ingGarbanzos, ingTofu, ingLechuga, ingTomate, ingCebolla, ingAguacate, ingEspinacas, ingBrocoli, ingChampinones, ingPimiento, ingPepino, ingZanahoria, ingAceiteOliva, ingAlmendras, ingNueces, ingArroz, ingPanIntegral, ingAvena, ingQuinoa, ingPanSinGluten, ingTortillasMaiz, ingFresa, ingArandano, ingLimon, ingSal, ingPimienta, ingAjoPolvo, ingColiflor, ingSemillasChia, ingAceiteCoco, ingHarinaAlmendras, ingLecheAlmendras, ingProteinaPolvo, ingPastaSinGluten, ingMostaza};
@@ -343,7 +341,7 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
         for(long id : glutenFreeIng) _asociarIngredienteDieta(db, DIETA_GLUTEN_FREE, id);
         for(long id : carnivoreIng) _asociarIngredienteDieta(db, DIETA_CARNIVORA, id);
 
-        // --- Platillos Viejos ---
+        // Platillos
         _insertarPlatillo(db, DIETA_KETO, "Huevos revueltos con tocino", "Desayuno", new long[]{ingHuevo, ingTocino, ingAguacate, ingQuesoCheddar});
         _insertarPlatillo(db, DIETA_KETO, "Ensalada Cobb", "Almuerzo", new long[]{ingPechugaPollo, ingLechuga, ingTomate, ingHuevo, ingTocino, ingAguacate, ingQuesoCabra});
         _insertarPlatillo(db, DIETA_KETO, "Salmón al horno con brócoli", "Comida", new long[]{ingSalmon, ingBrocoli, ingAceiteOliva, ingLimon, ingSal, ingPimienta});
@@ -369,9 +367,6 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
         _insertarPlatillo(db, DIETA_CARNIVORA, "Chuletas de cerdo en mantequilla", "Comida", new long[]{ingChuletaCerdo, ingMantequilla, ingAjoPolvo, ingSal});
         _insertarPlatillo(db, DIETA_CARNIVORA, "Ensalada de atún", "Colación", new long[]{ingAtun, ingMayonesa, ingHuevo, ingCebolla});
         _insertarPlatillo(db, DIETA_CARNIVORA, "Salmón a la plancha con tocino", "Cena", new long[]{ingSalmon, ingTocino, ingLimon, ingMantequilla, ingSal});
-
-        // --- Platillos Nuevos ---
-        // Keto
         _insertarPlatillo(db, DIETA_KETO, "Pancakes de Harina de Almendras", "Desayuno", new long[]{ingHarinaAlmendras, ingHuevo, ingMantequilla, ingFresa});
         _insertarPlatillo(db, DIETA_KETO, "Yogur con Nueces y Chía", "Desayuno", new long[]{ingYogurGriego, ingNueces, ingSemillasChia, ingArandano});
         _insertarPlatillo(db, DIETA_KETO, "Pizza de base de Coliflor", "Almuerzo", new long[]{ingColiflor, ingQuesoCheddar, ingPimiento, ingChampinones, ingTomate});
@@ -382,8 +377,6 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
         _insertarPlatillo(db, DIETA_KETO, "Tiras de apio con queso crema", "Colación", new long[]{ingQuesoCabra, ingPimienta, ingSal});
         _insertarPlatillo(db, DIETA_KETO, "Sopa de brócoli y cheddar", "Cena", new long[]{ingBrocoli, ingQuesoCheddar, ingCremaAgria, ingCebolla});
         _insertarPlatillo(db, DIETA_KETO, "Tacos de lechuga con atún", "Cena", new long[]{ingLechuga, ingAtun, ingMayonesa, ingCebolla, ingTomate});
-
-        // Vegetariana
         _insertarPlatillo(db, DIETA_VEGETARIANA, "Tostadas francesas", "Desayuno", new long[]{ingPanIntegral, ingHuevo, ingMantequilla, ingFresa, ingMiel});
         _insertarPlatillo(db, DIETA_VEGETARIANA, "Huevos a la mexicana", "Desayuno", new long[]{ingHuevo, ingTomate, ingCebolla, ingPimiento, ingSal});
         _insertarPlatillo(db, DIETA_VEGETARIANA, "Wrap de Hummus y Vegetales", "Almuerzo", new long[]{ingGarbanzos, ingTortillasMaiz, ingLechuga, ingZanahoria, ingPepino});
@@ -394,8 +387,6 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
         _insertarPlatillo(db, DIETA_VEGETARIANA, "Manzana con mantequilla de maní", "Colación", new long[]{ingMantequilla, ingSal});
         _insertarPlatillo(db, DIETA_VEGETARIANA, "Quesadillas de Frijoles", "Cena", new long[]{ingTortillasMaiz, ingFrijoles, ingQuesoCheddar});
         _insertarPlatillo(db, DIETA_VEGETARIANA, "Pizza margarita", "Cena", new long[]{ingPanIntegral, ingTomate, ingQuesoCabra, ingAceiteOliva});
-
-        // Vegana
         _insertarPlatillo(db, DIETA_VEGANA, "Pudín de Chía", "Desayuno", new long[]{ingSemillasChia, ingLecheAlmendras, ingFresa, ingArandano});
         _insertarPlatillo(db, DIETA_VEGANA, "Tostada con aguacate y tomate", "Desayuno", new long[]{ingPanIntegral, ingAguacate, ingTomate, ingSal, ingPimienta});
         _insertarPlatillo(db, DIETA_VEGANA, "Sopa de lentejas y zanahoria", "Almuerzo", new long[]{ingLentejas, ingZanahoria, ingCebolla, ingTomate});
@@ -406,8 +397,6 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
         _insertarPlatillo(db, DIETA_VEGANA, "Batido de Proteína Vegana", "Colación", new long[]{ingProteinaPolvo, ingLecheAlmendras, ingFresa});
         _insertarPlatillo(db, DIETA_VEGANA, "Berenjena a la parmesana (sin queso)", "Cena", new long[]{ingBerenjena, ingTomate, ingAjoPolvo, ingPanIntegral});
         _insertarPlatillo(db, DIETA_VEGANA, "Salteado de vegetales", "Cena", new long[]{ingBrocoli, ingPimiento, ingZanahoria, ingCebolla, ingSalsaSoja});
-
-        // Libre de Gluten
         _insertarPlatillo(db, DIETA_GLUTEN_FREE, "Batido de Proteínas y Frutas", "Desayuno", new long[]{ingProteinaPolvo, ingLecheAlmendras, ingFresa, ingArandano});
         _insertarPlatillo(db, DIETA_GLUTEN_FREE, "Yogur con frutas y nueces", "Desayuno", new long[]{ingYogurGriego, ingFresa, ingNueces, ingMiel});
         _insertarPlatillo(db, DIETA_GLUTEN_FREE, "Tacos de pollo", "Almuerzo", new long[]{ingPechugaPollo, ingTortillasMaiz, ingAguacate, ingTomate, ingCebolla});
@@ -418,8 +407,6 @@ public class BaseDatosDieta extends SQLiteOpenHelper {
         _insertarPlatillo(db, DIETA_GLUTEN_FREE, "Chips de Manzana al Horno", "Colación", new long[]{ingMiel});
         _insertarPlatillo(db, DIETA_GLUTEN_FREE, "Camarones al coco", "Cena", new long[]{ingCamarones, ingAceiteCoco, ingHuevo, ingHarinaAlmendras});
         _insertarPlatillo(db, DIETA_GLUTEN_FREE, "Pizza con base de quinoa", "Cena", new long[]{ingQuinoa, ingTomate, ingQuesoCheddar, ingPimiento});
-
-        // Carnívora
         _insertarPlatillo(db, DIETA_CARNIVORA, "Chicharrón de cerdo", "Desayuno", new long[]{ingChuletaCerdo, ingSal});
         _insertarPlatillo(db, DIETA_CARNIVORA, "Revoltillo con carne molida", "Desayuno", new long[]{ingHuevo, ingCarneRes, ingQuesoCheddar});
         _insertarPlatillo(db, DIETA_CARNIVORA, "Alitas de pollo fritas", "Almuerzo", new long[]{ingPechugaPollo, ingMantequilla, ingSal, ingPimienta});

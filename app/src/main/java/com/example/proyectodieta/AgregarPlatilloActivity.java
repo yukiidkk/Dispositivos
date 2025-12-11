@@ -3,7 +3,6 @@ package com.example.proyectodieta;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AgregarPlatilloActivity extends AppCompatActivity {
@@ -21,8 +21,8 @@ public class AgregarPlatilloActivity extends AppCompatActivity {
 
     private BaseDatosDieta db;
     private int idDieta;
-    private String tipoComidaSeleccionado = null;
     private IngredienteAdapter ingredienteAdapter;
+    private TipoComidaAdapter tipoComidaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,23 +46,21 @@ public class AgregarPlatilloActivity extends AppCompatActivity {
         configurarListaTipoComida();
         configurarListaIngredientes();
 
-        // Listener para el botón
+        // Listener para el botón de agregar platillo
         btnAgregarPlatillo.setOnClickListener(v -> guardarPlatillo());
     }
 
     private void configurarListaTipoComida() {
-        String[] tipos = {"Desayuno", "Almuerzo", "Comida", "Colación", "Cena"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, tipos);
-        listTipoComida.setAdapter(adapter);
-        listTipoComida.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        List<String> tipos = Arrays.asList("Desayuno", "Almuerzo", "Comida", "Colación", "Cena");
+        tipoComidaAdapter = new TipoComidaAdapter(this, tipos);
+        listTipoComida.setAdapter(tipoComidaAdapter);
 
         listTipoComida.setOnItemClickListener((parent, view, position, id) -> {
-            tipoComidaSeleccionado = (String) parent.getItemAtPosition(position);
+            tipoComidaAdapter.setSelectedPosition(position);
         });
     }
 
     private void configurarListaIngredientes() {
-        // Ahora solo obtenemos los ingredientes permitidos para la dieta actual
         List<Ingrediente> ingredientesPermitidos = db.obtenerIngredientesPorDieta(idDieta);
         ingredienteAdapter = new IngredienteAdapter(this, ingredientesPermitidos);
         listIngredientesDisponibles.setAdapter(ingredienteAdapter);
@@ -70,6 +68,7 @@ public class AgregarPlatilloActivity extends AppCompatActivity {
 
     private void guardarPlatillo() {
         String nombre = editNombrePlatillo.getText().toString().trim();
+        String tipoComidaSeleccionado = tipoComidaAdapter.getSelectedItem();
         List<Integer> idsIngredientesSeleccionados = ingredienteAdapter.getSeleccionados();
 
         // Validaciones
@@ -93,8 +92,8 @@ public class AgregarPlatilloActivity extends AppCompatActivity {
                 db.agregarIngredienteAPlatillo((int) idPlatilloNuevo, idIngrediente);
             }
             Toast.makeText(this, "Platillo añadido correctamente", Toast.LENGTH_SHORT).show();
-            setResult(Activity.RESULT_OK); // Indicar que se hizo un cambio
-            finish(); // Volver
+            setResult(Activity.RESULT_OK);
+            finish();
         } else {
             Toast.makeText(this, "Error al guardar el platillo", Toast.LENGTH_SHORT).show();
         }

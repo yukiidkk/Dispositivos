@@ -6,14 +6,14 @@ public class Platillo {
     private int idDieta;
     private String nombre;
     private String tipoComida;
-    private boolean preparado; // Nuevo campo
+    private boolean preparado;
 
     public Platillo(int idPlatillo, int idDieta, String nombre, String tipoComida) {
         this.idPlatillo = idPlatillo;
         this.idDieta = idDieta;
         this.nombre = nombre;
         this.tipoComida = tipoComida;
-        this.preparado = false; // Por defecto no está preparado
+        this.preparado = false;
     }
 
     public int getIdPlatillo() {
@@ -48,7 +48,6 @@ public class Platillo {
         this.tipoComida = tipoComida;
     }
 
-    // --- Nuevos métodos ---
     public boolean isPreparado() {
         return preparado;
     }
